@@ -1,27 +1,22 @@
 package com.bloxbean.example.devkit;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.api.ProtocolParamsSupplier;
-import com.bloxbean.cardano.client.api.UtxoSupplier;
-import com.bloxbean.cardano.client.api.helper.FeeCalculationService;
-import com.bloxbean.cardano.client.api.helper.TransactionHelperService;
-import com.bloxbean.cardano.client.api.helper.UtxoTransactionBuilder;
 import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.backend.api.*;
-import com.bloxbean.cardano.client.backend.blockfrost.common.Constants;
-import com.bloxbean.cardano.client.backend.blockfrost.service.BFBackendService;
 import com.bloxbean.cardano.client.common.model.Networks;
 
 import java.util.List;
 import java.util.Optional;
 
-public class QuickTxBaseTest {
+public class BaseTest {
     String INDEXER_URL = "http://localhost:8080/api/v1/";
 
+    //addr_test1qqxnp3khzm7kcj9t23hskehat7428ghsenk0pfew4rqy5v9frnmht7uwrl073q4jvq20z82kh4rksyns540azhndqexqpvhgqr
     String sender1Mnemonic = "kit color frog trick speak employ suit sort bomb goddess jewel primary spoil fade person useless measure manage warfare reduce few scrub beyond era";
     Account sender1 = new Account(Networks.testnet(), sender1Mnemonic);
     String sender1Addr = sender1.baseAddress();
 
+    //addr_test1qrs2a2hjfs2wt8r3smzwmptezmave3yjgws068hp0qsflmcypglx0rl69tp49396282ns02caz4cx7a2n290h2df0j3qjku4dy
     String sender2Mnemonic = "essence pilot click armor alpha noise mixture soldier able advice multiply inject ticket pride airport uncover honey desert curtain sun true toast valve half";
     Account sender2 = new Account(Networks.testnet(), sender2Mnemonic);
     String sender2Addr = sender2.baseAddress();

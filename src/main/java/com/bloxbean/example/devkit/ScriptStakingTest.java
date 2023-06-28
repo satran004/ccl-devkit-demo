@@ -1,8 +1,13 @@
 package com.bloxbean.example.devkit;
 
+import com.bloxbean.cardano.aiken.AikenTransactionEvaluator;
 import com.bloxbean.cardano.client.address.AddressProvider;
+import com.bloxbean.cardano.client.api.ProtocolParamsSupplier;
+import com.bloxbean.cardano.client.api.UtxoSupplier;
 import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.backend.api.BackendService;
+import com.bloxbean.cardano.client.backend.api.DefaultProtocolParamsSupplier;
+import com.bloxbean.cardano.client.backend.api.DefaultUtxoSupplier;
 import com.bloxbean.cardano.client.backend.blockfrost.service.BFBackendService;
 import com.bloxbean.cardano.client.cip.cip20.MessageMetadata;
 import com.bloxbean.cardano.client.common.model.Networks;
@@ -15,8 +20,10 @@ import com.bloxbean.cardano.client.quicktx.ScriptTx;
 import com.bloxbean.cardano.client.quicktx.Tx;
 import com.bloxbean.cardano.client.util.JsonUtil;
 
-public class ScriptStakingTest extends QuickTxBaseTest {
+public class ScriptStakingTest extends BaseTest {
     BackendService backendService = new BFBackendService(INDEXER_URL, "");
+    UtxoSupplier utxoSupplier = new DefaultUtxoSupplier(backendService.getUtxoService());
+    ProtocolParamsSupplier protocolParamsSupplier = new DefaultProtocolParamsSupplier(backendService.getEpochService());
 
     String aikenCompiledCode1 = "581801000032223253330043370e00290010a4c2c6eb40095cd1"; //redeemer = 1
     PlutusScript plutusScript1 = PlutusUtil.getPlutusV2Script(aikenCompiledCode1);
@@ -43,7 +50,6 @@ public class ScriptStakingTest extends QuickTxBaseTest {
         System.out.println(result);
     }
 
-
     void scriptStakeAddress_deRegistration() {
         QuickTxBuilder quickTxBuilder = new QuickTxBuilder(backendService);
         ScriptTx tx = new ScriptTx()
@@ -56,6 +62,7 @@ public class ScriptStakingTest extends QuickTxBaseTest {
         Result<String> result = quickTxBuilder.compose(tx)
                 .feePayer(sender1Addr)
                 .withSigner(SignerProviders.signerFrom(sender1))
+                .withTxEvaluator(new AikenTransactionEvaluator(utxoSupplier, protocolParamsSupplier))
                 .withTxInspector((txn) -> System.out.println(JsonUtil.getPrettyJson(txn)))
                 .completeAndWait(msg -> System.out.println(msg));
 
@@ -66,8 +73,6 @@ public class ScriptStakingTest extends QuickTxBaseTest {
         ScriptStakingTest test = new ScriptStakingTest();
         test.scriptStakeAddress_registration();
         //TODO delegation
-//        test.scriptStakeAddress_deRegistration();
-
-        //Withdrawal
+        //test.scriptStakeAddress_deRegistration();
     }
 }

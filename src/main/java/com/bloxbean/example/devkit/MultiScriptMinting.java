@@ -15,7 +15,7 @@ import com.bloxbean.cardano.client.transaction.spec.Asset;
 import java.math.BigInteger;
 
 
-public class MultiScriptMinting extends QuickTxBaseTest {
+public class MultiScriptMinting extends BaseTest {
     BackendService backendService = new BFBackendService(INDEXER_URL, "");
 
     void scriptMinting() throws CborSerializationException {

@@ -4,7 +4,6 @@ import com.bloxbean.cardano.aiken.AikenTransactionEvaluator;
 import com.bloxbean.cardano.client.address.AddressProvider;
 import com.bloxbean.cardano.client.api.ProtocolParamsSupplier;
 import com.bloxbean.cardano.client.api.UtxoSupplier;
-import com.bloxbean.cardano.client.api.exception.ApiException;
 import com.bloxbean.cardano.client.api.model.Amount;
 import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.api.model.Utxo;
@@ -31,7 +30,7 @@ import java.util.Random;
  * 1. locks funds to a script address
  * 2. unlocks funds from the script address
  */
-public class AlwaysTrueScriptTest extends QuickTxBaseTest {
+public class AlwaysTrueScriptTest extends BaseTest {
 
     BackendService backendService = new BFBackendService(INDEXER_URL, "");
     UtxoSupplier utxoSupplier = new DefaultUtxoSupplier(backendService.getUtxoService());
